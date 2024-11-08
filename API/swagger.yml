@@ -1,0 +1,614 @@
+openapi: 3.0.1
+info:
+  title: HackTownBack
+  version: '1.0'
+paths:
+  /api/EventRoutes:
+    get:
+      tags:
+        - EventRoutes
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventRoute'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventRoute'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventRoute'
+    post:
+      tags:
+        - EventRoutes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventRoute'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/EventRoute'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/EventRoute'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/EventRoute'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventRoute'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/EventRoute'
+  /api/EventRoutes/{id}:
+    get:
+      tags:
+        - EventRoutes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/EventRoute'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventRoute'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/EventRoute'
+    put:
+      tags:
+        - EventRoutes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventRoute'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/EventRoute'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/EventRoute'
+      responses:
+        '200':
+          description: Success
+    delete:
+      tags:
+        - EventRoutes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/Locations:
+    get:
+      tags:
+        - Locations
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+    post:
+      tags:
+        - Locations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Location'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+  /api/Locations/{id}:
+    get:
+      tags:
+        - Locations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Location'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+    put:
+      tags:
+        - Locations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        '200':
+          description: Success
+    delete:
+      tags:
+        - Locations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/UserRequests:
+    get:
+      tags:
+        - UserRequests
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRequest'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRequest'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRequest'
+    post:
+      tags:
+        - UserRequests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequestDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UserRequestDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UserRequestDto'
+      responses:
+        '200':
+          description: Success
+  /api/UserRequests/{id}:
+    get:
+      tags:
+        - UserRequests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/UserRequest'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRequest'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserRequest'
+    put:
+      tags:
+        - UserRequests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequestDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UserRequestDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UserRequestDto'
+      responses:
+        '200':
+          description: Success
+    delete:
+      tags:
+        - UserRequests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/Users:
+    get:
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /api/Users/{id}:
+    get:
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+      responses:
+        '200':
+          description: Success
+    delete:
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    EventRoute:
+      required:
+        - routeName
+        - stepsCount
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        routeName:
+          maxLength: 100
+          minLength: 1
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        stepsCount:
+          type: integer
+          format: int32
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Location'
+          nullable: true
+        userRequests:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRequest'
+          nullable: true
+      additionalProperties: false
+    Location:
+      required:
+        - name
+        - stepNumber
+        - type
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        eventId:
+          type: integer
+          format: int32
+          nullable: true
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+        address:
+          maxLength: 255
+          type: string
+          nullable: true
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        description:
+          type: string
+          nullable: true
+        type:
+          maxLength: 50
+          minLength: 1
+          type: string
+        stepNumber:
+          type: integer
+          format: int32
+        eventRoute:
+          $ref: '#/components/schemas/EventRoute'
+      additionalProperties: false
+    User:
+      required:
+        - email
+        - name
+        - password
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+        email:
+          maxLength: 100
+          minLength: 1
+          type: string
+        password:
+          minLength: 1
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        userRequests:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRequest'
+          nullable: true
+      additionalProperties: false
+    UserDto:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+      additionalProperties: false
+    UserRequest:
+      required:
+        - eventType
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        userId:
+          type: integer
+          format: int32
+        eventType:
+          maxLength: 50
+          minLength: 1
+          type: string
+        peopleCount:
+          type: integer
+          format: int32
+        eventTime:
+          type: string
+          format: date-time
+          nullable: true
+        costTier:
+          type: integer
+          format: int32
+        requestTime:
+          type: string
+          format: date-time
+        eventRoutesId:
+          type: integer
+          format: int32
+          nullable: true
+        response:
+          type: string
+          nullable: true
+        user:
+          $ref: '#/components/schemas/User'
+        eventRoute:
+          $ref: '#/components/schemas/EventRoute'
+      additionalProperties: false
+    UserRequestDto:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int32
+        eventType:
+          type: string
+          nullable: true
+        peopleCount:
+          type: integer
+          format: int32
+        eventTime:
+          type: string
+          format: date-time
+        costTier:
+          type: integer
+          format: int32
+      additionalProperties: false
