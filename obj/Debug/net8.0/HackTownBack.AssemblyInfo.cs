@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HackTownBack")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4aa3ec76315e24b6c7dabbefdbc81c83cec73ce1")]
 [assembly: System.Reflection.AssemblyProductAttribute("HackTownBack")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HackTownBack")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
