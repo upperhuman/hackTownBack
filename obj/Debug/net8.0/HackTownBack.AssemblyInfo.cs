@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("e08503d2-5033-48d9-b27a-726d53be4ec9")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("HackTownBack")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4aa3ec76315e24b6c7dabbefdbc81c83cec73ce1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+baa19b6a25cbc3af6f53cb8066d5e0a8bb1eba31")]
 [assembly: System.Reflection.AssemblyProductAttribute("HackTownBack")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HackTownBack")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
