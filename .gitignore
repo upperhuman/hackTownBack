@@ -1,0 +1,44 @@
+# IDE та система
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sln.binlog
+*.vs/
+
+# Папки збірки
+bin/
+obj/
+out/
+
+# Пакети
+*.nupkg
+*.snupkg
+.nuget/
+
+# Налаштування Bower
+bower_components/
+wwwroot/lib/
+
+# Логи та бази даних
+*.log
+logs/
+*.mdf
+*.ldf
+*.db
+*.sqlite
+
+# Секрети користувача
+secrets.json
+
+# Docker файли
+.docker/
+docker-compose.override.yml
+
+# Конфігураційні файли
+appsettings*.json
+
+# Сторонні пакети та кеш
+node_modules/
+dist/
