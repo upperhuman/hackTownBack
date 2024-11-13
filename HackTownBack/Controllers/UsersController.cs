@@ -47,6 +47,7 @@ namespace HackTownBack.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, UserDto userDto)
         {
+
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
