@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  hacktownback:
+    image: ${DOCKER_REGISTRY-}hacktownback
+    container_name: hacktownback
+    build:
+      context: HackTownBack
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"        
+  hacktownback.database:
+    image: postgres:latest
+    container_name: hacktownback.database
+    environment:
+      - POSTGRES_DB=HackTown
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=54321 
+    volumes:
+      - ./.containers/hacktownback-db:/var/lib/data
+    ports:
+      - 5432:5432
