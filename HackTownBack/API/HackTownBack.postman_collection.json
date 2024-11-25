@@ -1,0 +1,1557 @@
+{
+	"info": {
+		"_postman_id": "906d6977-925f-4a19-8c11-8f7c3114757d",
+		"name": "HackTownBack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39604311",
+		"_collection_link": "https://hacktown.postman.co/workspace/HackTown-Workspace~d3606ddf-578b-4c89-8803-0712ebf8e9ac/collection/39604311-906d6977-925f-4a19-8c11-8f7c3114757d?action=share&source=collection_link&creator=39604311"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "EventRoutes",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "/api/EventRoutes/:id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/EventRoutes/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"EventRoutes",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/EventRoutes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"EventRoutes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"routeName\": \"<string>\",\n  \"stepsCount\": \"<integer>\",\n  \"id\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"locations\": [\n    {\n      \"name\": \"<string>\",\n      \"stepNumber\": \"<integer>\",\n      \"type\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"eventId\": \"<integer>\",\n      \"address\": \"<string>\",\n      \"latitude\": \"<double>\",\n      \"longitude\": \"<double>\",\n      \"description\": \"<string>\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"stepNumber\": \"<integer>\",\n      \"type\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"eventId\": \"<integer>\",\n      \"address\": \"<string>\",\n      \"latitude\": \"<double>\",\n      \"longitude\": \"<double>\",\n      \"description\": \"<string>\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ],\n  \"userRequests\": [\n    {\n      \"eventType\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"userId\": \"<integer>\",\n      \"peopleCount\": \"<integer>\",\n      \"eventTime\": \"<dateTime>\",\n      \"costTier\": \"<integer>\",\n      \"requestTime\": \"<dateTime>\",\n      \"eventRoutesId\": \"<integer>\",\n      \"response\": \"<string>\",\n      \"user\": {\n        \"email\": \"<string>\",\n        \"name\": \"<string>\",\n        \"password\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"createdAt\": \"<dateTime>\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"eventType\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"userId\": \"<integer>\",\n      \"peopleCount\": \"<integer>\",\n      \"eventTime\": \"<dateTime>\",\n      \"costTier\": \"<integer>\",\n      \"requestTime\": \"<dateTime>\",\n      \"eventRoutesId\": \"<integer>\",\n      \"response\": \"<string>\",\n      \"user\": {\n        \"email\": \"<string>\",\n        \"name\": \"<string>\",\n        \"password\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"createdAt\": \"<dateTime>\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ]\n}"
+										}
+									]
+								},
+								{
+									"name": "/api/EventRoutes/:id",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"routeName\": \"<string>\",\n  \"stepsCount\": \"<integer>\",\n  \"id\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"locations\": [\n    {\n      \"name\": \"<string>\",\n      \"stepNumber\": \"<integer>\",\n      \"type\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"eventId\": \"<integer>\",\n      \"address\": \"<string>\",\n      \"latitude\": \"<double>\",\n      \"longitude\": \"<double>\",\n      \"description\": \"<string>\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"stepNumber\": \"<integer>\",\n      \"type\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"eventId\": \"<integer>\",\n      \"address\": \"<string>\",\n      \"latitude\": \"<double>\",\n      \"longitude\": \"<double>\",\n      \"description\": \"<string>\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ],\n  \"userRequests\": [\n    {\n      \"eventType\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"userId\": \"<integer>\",\n      \"peopleCount\": \"<integer>\",\n      \"eventTime\": \"<dateTime>\",\n      \"costTier\": \"<integer>\",\n      \"requestTime\": \"<dateTime>\",\n      \"eventRoutesId\": \"<integer>\",\n      \"response\": \"<string>\",\n      \"user\": {\n        \"email\": \"<string>\",\n        \"name\": \"<string>\",\n        \"password\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"createdAt\": \"<dateTime>\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"eventType\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"userId\": \"<integer>\",\n      \"peopleCount\": \"<integer>\",\n      \"eventTime\": \"<dateTime>\",\n      \"costTier\": \"<integer>\",\n      \"requestTime\": \"<dateTime>\",\n      \"eventRoutesId\": \"<integer>\",\n      \"response\": \"<string>\",\n      \"user\": {\n        \"email\": \"<string>\",\n        \"name\": \"<string>\",\n        \"password\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"createdAt\": \"<dateTime>\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/EventRoutes/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"EventRoutes",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"routeName\": \"<string>\",\n  \"stepsCount\": \"<integer>\",\n  \"id\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"locations\": [\n    {\n      \"name\": \"<string>\",\n      \"stepNumber\": \"<integer>\",\n      \"type\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"eventId\": \"<integer>\",\n      \"address\": \"<string>\",\n      \"latitude\": \"<double>\",\n      \"longitude\": \"<double>\",\n      \"description\": \"<string>\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"stepNumber\": \"<integer>\",\n      \"type\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"eventId\": \"<integer>\",\n      \"address\": \"<string>\",\n      \"latitude\": \"<double>\",\n      \"longitude\": \"<double>\",\n      \"description\": \"<string>\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ],\n  \"userRequests\": [\n    {\n      \"eventType\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"userId\": \"<integer>\",\n      \"peopleCount\": \"<integer>\",\n      \"eventTime\": \"<dateTime>\",\n      \"costTier\": \"<integer>\",\n      \"requestTime\": \"<dateTime>\",\n      \"eventRoutesId\": \"<integer>\",\n      \"response\": \"<string>\",\n      \"user\": {\n        \"email\": \"<string>\",\n        \"name\": \"<string>\",\n        \"password\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"createdAt\": \"<dateTime>\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"eventType\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"userId\": \"<integer>\",\n      \"peopleCount\": \"<integer>\",\n      \"eventTime\": \"<dateTime>\",\n      \"costTier\": \"<integer>\",\n      \"requestTime\": \"<dateTime>\",\n      \"eventRoutesId\": \"<integer>\",\n      \"response\": \"<string>\",\n      \"user\": {\n        \"email\": \"<string>\",\n        \"name\": \"<string>\",\n        \"password\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"createdAt\": \"<dateTime>\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/EventRoutes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"EventRoutes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "/api/EventRoutes/:id",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/EventRoutes/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"EventRoutes",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/EventRoutes/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"EventRoutes",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/EventRoutes",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/EventRoutes",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"EventRoutes"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/EventRoutes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"EventRoutes"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"routeName\": \"<string>\",\n    \"stepsCount\": \"<integer>\",\n    \"id\": \"<integer>\",\n    \"createdAt\": \"<dateTime>\",\n    \"locations\": [\n      {\n        \"name\": \"<string>\",\n        \"stepNumber\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"eventId\": \"<integer>\",\n        \"address\": \"<string>\",\n        \"latitude\": \"<double>\",\n        \"longitude\": \"<double>\",\n        \"description\": \"<string>\",\n        \"eventRoute\": {\n          \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"stepNumber\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"eventId\": \"<integer>\",\n        \"address\": \"<string>\",\n        \"latitude\": \"<double>\",\n        \"longitude\": \"<double>\",\n        \"description\": \"<string>\",\n        \"eventRoute\": {\n          \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n        }\n      }\n    ],\n    \"userRequests\": [\n      {\n        \"eventType\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"userId\": \"<integer>\",\n        \"peopleCount\": \"<integer>\",\n        \"eventTime\": \"<dateTime>\",\n        \"costTier\": \"<integer>\",\n        \"requestTime\": \"<dateTime>\",\n        \"eventRoutesId\": \"<integer>\",\n        \"response\": \"<string>\",\n        \"user\": {\n          \"email\": \"<string>\",\n          \"name\": \"<string>\",\n          \"password\": \"<string>\",\n          \"id\": \"<integer>\",\n          \"createdAt\": \"<dateTime>\",\n          \"userRequests\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n            }\n          ]\n        },\n        \"eventRoute\": {\n          \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n        }\n      },\n      {\n        \"eventType\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"userId\": \"<integer>\",\n        \"peopleCount\": \"<integer>\",\n        \"eventTime\": \"<dateTime>\",\n        \"costTier\": \"<integer>\",\n        \"requestTime\": \"<dateTime>\",\n        \"eventRoutesId\": \"<integer>\",\n        \"response\": \"<string>\",\n        \"user\": {\n          \"email\": \"<string>\",\n          \"name\": \"<string>\",\n          \"password\": \"<string>\",\n          \"id\": \"<integer>\",\n          \"createdAt\": \"<dateTime>\",\n          \"userRequests\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n            }\n          ]\n        },\n        \"eventRoute\": {\n          \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n        }\n      }\n    ]\n  },\n  {\n    \"routeName\": \"<string>\",\n    \"stepsCount\": \"<integer>\",\n    \"id\": \"<integer>\",\n    \"createdAt\": \"<dateTime>\",\n    \"locations\": [\n      {\n        \"name\": \"<string>\",\n        \"stepNumber\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"eventId\": \"<integer>\",\n        \"address\": \"<string>\",\n        \"latitude\": \"<double>\",\n        \"longitude\": \"<double>\",\n        \"description\": \"<string>\",\n        \"eventRoute\": {\n          \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"stepNumber\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"eventId\": \"<integer>\",\n        \"address\": \"<string>\",\n        \"latitude\": \"<double>\",\n        \"longitude\": \"<double>\",\n        \"description\": \"<string>\",\n        \"eventRoute\": {\n          \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n        }\n      }\n    ],\n    \"userRequests\": [\n      {\n        \"eventType\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"userId\": \"<integer>\",\n        \"peopleCount\": \"<integer>\",\n        \"eventTime\": \"<dateTime>\",\n        \"costTier\": \"<integer>\",\n        \"requestTime\": \"<dateTime>\",\n        \"eventRoutesId\": \"<integer>\",\n        \"response\": \"<string>\",\n        \"user\": {\n          \"email\": \"<string>\",\n          \"name\": \"<string>\",\n          \"password\": \"<string>\",\n          \"id\": \"<integer>\",\n          \"createdAt\": \"<dateTime>\",\n          \"userRequests\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n            }\n          ]\n        },\n        \"eventRoute\": {\n          \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n        }\n      },\n      {\n        \"eventType\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"userId\": \"<integer>\",\n        \"peopleCount\": \"<integer>\",\n        \"eventTime\": \"<dateTime>\",\n        \"costTier\": \"<integer>\",\n        \"requestTime\": \"<dateTime>\",\n        \"eventRoutesId\": \"<integer>\",\n        \"response\": \"<string>\",\n        \"user\": {\n          \"email\": \"<string>\",\n          \"name\": \"<string>\",\n          \"password\": \"<string>\",\n          \"id\": \"<integer>\",\n          \"createdAt\": \"<dateTime>\",\n          \"userRequests\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n            }\n          ]\n        },\n        \"eventRoute\": {\n          \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n        }\n      }\n    ]\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "/api/EventRoutes",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"routeName\": \"<string>\",\n  \"stepsCount\": \"<integer>\",\n  \"id\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"locations\": [\n    {\n      \"name\": \"<string>\",\n      \"stepNumber\": \"<integer>\",\n      \"type\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"eventId\": \"<integer>\",\n      \"address\": \"<string>\",\n      \"latitude\": \"<double>\",\n      \"longitude\": \"<double>\",\n      \"description\": \"<string>\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"stepNumber\": \"<integer>\",\n      \"type\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"eventId\": \"<integer>\",\n      \"address\": \"<string>\",\n      \"latitude\": \"<double>\",\n      \"longitude\": \"<double>\",\n      \"description\": \"<string>\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ],\n  \"userRequests\": [\n    {\n      \"eventType\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"userId\": \"<integer>\",\n      \"peopleCount\": \"<integer>\",\n      \"eventTime\": \"<dateTime>\",\n      \"costTier\": \"<integer>\",\n      \"requestTime\": \"<dateTime>\",\n      \"eventRoutesId\": \"<integer>\",\n      \"response\": \"<string>\",\n      \"user\": {\n        \"email\": \"<string>\",\n        \"name\": \"<string>\",\n        \"password\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"createdAt\": \"<dateTime>\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"eventType\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"userId\": \"<integer>\",\n      \"peopleCount\": \"<integer>\",\n      \"eventTime\": \"<dateTime>\",\n      \"costTier\": \"<integer>\",\n      \"requestTime\": \"<dateTime>\",\n      \"eventRoutesId\": \"<integer>\",\n      \"response\": \"<string>\",\n      \"user\": {\n        \"email\": \"<string>\",\n        \"name\": \"<string>\",\n        \"password\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"createdAt\": \"<dateTime>\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/EventRoutes",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"EventRoutes"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"routeName\": \"<string>\",\n  \"stepsCount\": \"<integer>\",\n  \"id\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"locations\": [\n    {\n      \"name\": \"<string>\",\n      \"stepNumber\": \"<integer>\",\n      \"type\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"eventId\": \"<integer>\",\n      \"address\": \"<string>\",\n      \"latitude\": \"<double>\",\n      \"longitude\": \"<double>\",\n      \"description\": \"<string>\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"stepNumber\": \"<integer>\",\n      \"type\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"eventId\": \"<integer>\",\n      \"address\": \"<string>\",\n      \"latitude\": \"<double>\",\n      \"longitude\": \"<double>\",\n      \"description\": \"<string>\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ],\n  \"userRequests\": [\n    {\n      \"eventType\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"userId\": \"<integer>\",\n      \"peopleCount\": \"<integer>\",\n      \"eventTime\": \"<dateTime>\",\n      \"costTier\": {\n      \"type\": \"string\",\n      \"enum\": [\"low cost\", \"medium cost\", \"high cost\"] \n      },\n      \"requestTime\": \"<dateTime>\",\n      \"eventRoutesId\": \"<integer>\",\n      \"response\": \"<string>\",\n      \"user\": {\n        \"email\": \"<string>\",\n        \"name\": \"<string>\",\n        \"password\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"createdAt\": \"<dateTime>\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"eventType\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"userId\": \"<integer>\",\n      \"peopleCount\": \"<integer>\",\n      \"eventTime\": \"<dateTime>\",\n      \"costTier\": \"<integer>\",\n      \"requestTime\": \"<dateTime>\",\n      \"eventRoutesId\": \"<integer>\",\n      \"response\": \"<string>\",\n      \"user\": {\n        \"email\": \"<string>\",\n        \"name\": \"<string>\",\n        \"password\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"createdAt\": \"<dateTime>\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/EventRoutes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"EventRoutes"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"routeName\": \"Екскурсія по місту\",\n  \"stepsCount\": 2000,\n  \"id\": 101,\n  \"createdAt\": \"2024-11-24T12:00:00Z\",\n  \"locations\": [\n    {\n      \"name\": \"Центральний парк\",\n      \"stepNumber\": 2000,\n      \"type\": \"Старт\",\n      \"id\": 201,\n      \"eventId\": 301,\n      \"address\": \"вул. Головна, 123, Місто\",\n      \"latitude\": 50.4501,\n      \"longitude\": 30.5234,\n      \"description\": \"Місце зустрічі в Центральному парку.\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"name\": \"Прогулянка по місту\",\n      \"stepNumber\": 2000,\n      \"type\": \"Прогулянка\",\n      \"id\": 123,\n      \"eventId\": 456,\n      \"address\": \"вул. Прикладна, 6\",\n      \"latitude\": 48.8566,\n      \"longitude\": 2.3522,\n      \"description\": \"Короткий опис прогулянки.\",\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ],\n  \"userRequests\": [\n    {\n      \"eventType\": \"Екскурсія\",\n      \"id\": 401,\n      \"userId\": 1,\n      \"peopleCount\": 3,\n      \"eventTime\": \"2024-11-10T15:00:00Z\",\n      \"costTier\": \"low cost\",\n      \"requestTime\": \"2024-11-09T18:30:00Z\",\n      \"eventRoutesId\": 501,\n      \"response\": \"Знайдено\",\n      \"user\": {\n        \"email\": \"<string>\",\n        \"name\": \"<string>\",\n        \"password\": \"<string>\",\n        \"id\": \"<integer>\",\n        \"createdAt\": \"<dateTime>\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    },\n    {\n      \"eventType\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"userId\": \"1\",\n      \"peopleCount\": \"3\",\n      \"eventTime\": \"<dateTime>\",\n      \"costTier\": \"<integer>\",\n      \"requestTime\": \"<dateTime>\",\n      \"eventRoutesId\": \"2024-11-10T15:00:00Z\",\n      \"response\": \"<string>\",\n      \"user\": {\n        \"email\": \"email@mail.com\",\n        \"name\": \"Name\",\n        \"password\": \"<string>\",\n        \"id\": \"1\",\n        \"createdAt\": \"2024-11-24T12:34:56.789Z\",\n        \"userRequests\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n          }\n        ]\n      },\n      \"eventRoute\": {\n        \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n      }\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Locations",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "/api/Locations/:id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Locations/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Locations",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Locations/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Locations",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"name\": \"<string>\",\n  \"stepNumber\": \"<integer>\",\n  \"type\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"eventId\": \"<integer>\",\n  \"address\": \"<string>\",\n  \"latitude\": \"<double>\",\n  \"longitude\": \"<double>\",\n  \"description\": \"<string>\",\n  \"eventRoute\": {\n    \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n  }\n}"
+										}
+									]
+								},
+								{
+									"name": "/api/Locations/:id",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"stepNumber\": \"<integer>\",\n  \"type\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"eventId\": \"<integer>\",\n  \"address\": \"<string>\",\n  \"latitude\": \"<double>\",\n  \"longitude\": \"<double>\",\n  \"description\": \"<string>\",\n  \"eventRoute\": {\n    \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n  }\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Locations/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Locations",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"<string>\",\n  \"stepNumber\": \"<integer>\",\n  \"type\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"eventId\": \"<integer>\",\n  \"address\": \"<string>\",\n  \"latitude\": \"<double>\",\n  \"longitude\": \"<double>\",\n  \"description\": \"<string>\",\n  \"eventRoute\": {\n    \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n  }\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Locations/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Locations",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "/api/Locations/:id",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Locations/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Locations",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/Locations/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Locations",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/Locations",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Locations",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Locations"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Locations",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Locations"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"name\": \"<string>\",\n    \"stepNumber\": \"<integer>\",\n    \"type\": \"<string>\",\n    \"id\": \"<integer>\",\n    \"eventId\": \"<integer>\",\n    \"address\": \"<string>\",\n    \"latitude\": \"<double>\",\n    \"longitude\": \"<double>\",\n    \"description\": \"<string>\",\n    \"eventRoute\": {\n      \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n    }\n  },\n  {\n    \"name\": \"<string>\",\n    \"stepNumber\": \"<integer>\",\n    \"type\": \"<string>\",\n    \"id\": \"<integer>\",\n    \"eventId\": \"<integer>\",\n    \"address\": \"<string>\",\n    \"latitude\": \"<double>\",\n    \"longitude\": \"<double>\",\n    \"description\": \"<string>\",\n    \"eventRoute\": {\n      \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n    }\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "/api/Locations",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"stepNumber\": \"<integer>\",\n  \"type\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"eventId\": \"<integer>\",\n  \"address\": \"<string>\",\n  \"latitude\": \"<double>\",\n  \"longitude\": \"<double>\",\n  \"description\": \"<string>\",\n  \"eventRoute\": {\n    \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n  }\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Locations",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Locations"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"stepNumber\": \"<integer>\",\n  \"type\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"eventId\": \"<integer>\",\n  \"address\": \"<string>\",\n  \"latitude\": \"<double>\",\n  \"longitude\": \"<double>\",\n  \"description\": \"<string>\",\n  \"eventRoute\": {\n    \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n  }\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://385238ef-6c7a-41a1-9893-a886d9fbee7f.mock.pstmn.io",
+											"protocol": "https",
+											"host": [
+												"385238ef-6c7a-41a1-9893-a886d9fbee7f",
+												"mock",
+												"pstmn",
+												"io"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"name\": \"Прогулянка по місту\",\n  \"stepNumber\": \"2000\",\n  \"type\": \"Прогулянка\",\n  \"id\": \"123\",\n  \"eventId\": \"456\",\n  \"address\": \"вул.Прикладна, 6\",\n  \"latitude\": \"48.8566\",\n  \"longitude\": \"2.3522\",\n  \"description\": \"Приклад опису\",\n  \"eventRoute\": {\n    \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n  }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "UserRequests",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "/api/UserRequests/:id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/UserRequests/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"UserRequests",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/UserRequests/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"UserRequests",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"eventType\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"userId\": \"<integer>\",\n  \"peopleCount\": \"<integer>\",\n  \"eventTime\": \"<dateTime>\",\n  \"costTier\": \"<integer>\",\n  \"requestTime\": \"<dateTime>\",\n  \"eventRoutesId\": \"<integer>\",\n  \"response\": \"<string>\",\n  \"user\": {\n    \"email\": \"<string>\",\n    \"name\": \"<string>\",\n    \"password\": \"<string>\",\n    \"id\": \"<integer>\",\n    \"createdAt\": \"<dateTime>\",\n    \"userRequests\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n      }\n    ]\n  },\n  \"eventRoute\": {\n    \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n  }\n}"
+										}
+									]
+								},
+								{
+									"name": "/api/UserRequests/:id",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"userId\": \"<integer>\",\n  \"eventType\": \"<string>\",\n  \"peopleCount\": \"<integer>\",\n  \"eventTime\": \"<dateTime>\",\n  \"costTier\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/UserRequests/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"UserRequests",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"userId\": \"<integer>\",\n  \"eventType\": \"<string>\",\n  \"peopleCount\": \"<integer>\",\n  \"eventTime\": \"<dateTime>\",\n  \"costTier\": \"<integer>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/UserRequests/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"UserRequests",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "/api/UserRequests/:id",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/UserRequests/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"UserRequests",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/UserRequests/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"UserRequests",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/UserRequests",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}//api/UserRequests",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"",
+										"api",
+										"UserRequests"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/UserRequests",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"UserRequests"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"eventType\": \"<string>\",\n    \"id\": \"<integer>\",\n    \"userId\": \"<integer>\",\n    \"peopleCount\": \"<integer>\",\n    \"eventTime\": \"<dateTime>\",\n    \"costTier\": \"<integer>\",\n    \"requestTime\": \"<dateTime>\",\n    \"eventRoutesId\": \"<integer>\",\n    \"response\": \"<string>\",\n    \"user\": {\n      \"email\": \"<string>\",\n      \"name\": \"<string>\",\n      \"password\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"createdAt\": \"<dateTime>\",\n      \"userRequests\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n        }\n      ]\n    },\n    \"eventRoute\": {\n      \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n    }\n  },\n  {\n    \"eventType\": \"<string>\",\n    \"id\": \"<integer>\",\n    \"userId\": \"<integer>\",\n    \"peopleCount\": \"<integer>\",\n    \"eventTime\": \"<dateTime>\",\n    \"costTier\": \"<integer>\",\n    \"requestTime\": \"<dateTime>\",\n    \"eventRoutesId\": \"<integer>\",\n    \"response\": \"<string>\",\n    \"user\": {\n      \"email\": \"<string>\",\n      \"name\": \"<string>\",\n      \"password\": \"<string>\",\n      \"id\": \"<integer>\",\n      \"createdAt\": \"<dateTime>\",\n      \"userRequests\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n        }\n      ]\n    },\n    \"eventRoute\": {\n      \"value\": \"<Circular reference to #/components/schemas/EventRoute detected>\"\n    }\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "/api/UserRequests",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": \"<integer>\",\n  \"eventType\": \"<string>\",\n  \"peopleCount\": \"<integer>\",\n  \"eventTime\": \"<dateTime>\",\n  \"costTier\": {\n      \"type\": \"string\",\n      \"enum\": [\"low cost\", \"medium cost\", \"high cost\"]\n    }\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/UserRequests",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"UserRequests"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"userId\": \"<integer>\",\n  \"eventType\": \"<string>\",\n  \"peopleCount\": \"<integer>\",\n  \"eventTime\": \"<dateTime>\",\n  \"costTier\": {\n      \"type\": \"string\",\n      \"enum\": [\"low cost\", \"medium cost\", \"high cost\"]\n    }\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://385238ef-6c7a-41a1-9893-a886d9fbee7f.mock.pstmn.io",
+											"protocol": "https",
+											"host": [
+												"385238ef-6c7a-41a1-9893-a886d9fbee7f",
+												"mock",
+												"pstmn",
+												"io"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"userId\": 1,\n    \"eventType\": \"walk\",\n    \"peopleCount\": 3,\n    \"eventTime\": \"2024-11-10T15:00:00Z\",\n    \"costTier\": \"low cost\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "/api/Users/:id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "text/plain"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Users/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Users",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"email\": \"<string>\",\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"userRequests\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n    }\n  ]\n}"
+										}
+									]
+								},
+								{
+									"name": "/api/Users/:id",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Users/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Users",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "/api/Users/:id",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/Users/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Users",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/Users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"email\": \"<string>\",\n    \"name\": \"<string>\",\n    \"password\": \"<string>\",\n    \"id\": \"<integer>\",\n    \"createdAt\": \"<dateTime>\",\n    \"userRequests\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n      }\n    ]\n  },\n  {\n    \"email\": \"<string>\",\n    \"name\": \"<string>\",\n    \"password\": \"<string>\",\n    \"id\": \"<integer>\",\n    \"createdAt\": \"<dateTime>\",\n    \"userRequests\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n      }\n    ]\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "/api/Users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"email\": \"<string>\",\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"userRequests\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/UserRequest detected>\"\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://385238ef-6c7a-41a1-9893-a886d9fbee7f.mock.pstmn.io"
+		}
+	]
+}
