@@ -1,0 +1,31 @@
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
+WORKDIR /app
+
+COPY ./https/aspnetapp.pfx /https/aspnetapp.pfx
+
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password=585662vcxz
+
+EXPOSE 5150
+EXPOSE 7150
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["HackTownBack/HackTownBack.csproj", "HackTownBack/"]
+RUN dotnet restore "HackTownBack/HackTownBack.csproj"
+COPY . .
+WORKDIR "/src/HackTownBack"
+RUN dotnet build "HackTownBack.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "HackTownBack.csproj" -c $BUILD_CONFIGURATION -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "HackTownBack.dll"]

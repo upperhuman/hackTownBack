@@ -37,7 +37,7 @@ namespace HackTownBack.Models
         public int UserId { get; set; }
         public string EventType { get; set; }
         public int PeopleCount { get; set; }
-        public DateTime EventTime { get; set; }
+        public DateTime? EventTime { get; set; } // Робимо необов’язковим
         public int CostTier { get; set; }
     }
 
