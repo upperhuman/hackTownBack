@@ -2,22 +2,18 @@ version: '3.4'
 
 services:
   hacktownback:
-    image: ${DOCKER_REGISTRY-}hacktownback
-    container_name: hacktownback
+    image: hacktownback
+    container_name: hack-town-back
     build:
-      context: HackTownBack
+      context: .
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
-      - "5001:5001"        
-  hacktownback.database:
-    image: postgres:latest
-    container_name: hacktownback.database
+      - "5105:5105"
+      - "7150:7150" 
     environment:
-      - POSTGRES_DB=HackTown
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=54321 
-    volumes:
-      - ./.containers/hacktownback-db:/var/lib/data
-    ports:
-      - 5432:5432
+        ASPNETCORE_ENVIRONMENT: Development
+        DATABASE_HOST: hacktowndb.cbu20qgcsbot.eu-north-1.rds.amazonaws.com
+        DATABASE_PORT: 5432
+        DATABASE_USER: postgres
+        DATABASE_PASSWORD: 585662vcxz
+        DATABASE_NAME: hacktowndb

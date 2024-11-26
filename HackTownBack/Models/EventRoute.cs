@@ -15,8 +15,13 @@ namespace HackTownBack.Models
         [Required]
         public int StepsCount { get; set; }
 
-        public ICollection<Location> Locations { get; set; }
+        public ICollection<Location> Locations { get; set; } = new List<Location>();
 
-        public ICollection<UserRequest> UserRequests { get; set; }
+        public ICollection<UserRequest> UserRequests { get; set; } = new List<UserRequest>();
+    }
+    public class RouteResponse
+    {
+        public int RouteId { get; set; }
+        public IEnumerable<LocationDto> Locations { get; set; }
     }
 }

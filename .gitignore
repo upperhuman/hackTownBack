@@ -28,10 +28,9 @@ logs/
 *.ldf
 *.db
 *.sqlite
-
 # Секрети користувача
 secrets.json
-
+AWSLinux.perm
 # Docker файли
 .docker/
 docker-compose.override.yml
