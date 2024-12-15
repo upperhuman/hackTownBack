@@ -22,6 +22,13 @@ namespace HackTownBack.Models
     public class RouteResponse
     {
         public int RouteId { get; set; }
-        public IEnumerable<LocationDto> Locations { get; set; }
+        public string RouteName { get; set; }
+        public BudgetBreakdown BudgetBreakdown { get; set; }
+        public List<LocationDto> Locations { get; set; }
+    }
+    public class RouteApiResponce
+    {
+        public int RouteId { get; set; }
+        public string RouteName { get; set; }
     }
 }
