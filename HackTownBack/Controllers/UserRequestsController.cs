@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
+using HackTownBack.Functionality;
 
 namespace HackTownBack.Controllers
 {
@@ -81,8 +82,8 @@ namespace HackTownBack.Controllers
                 return StatusCode(500, $"An error occurred while saving: {ex.Message}");
             }
 
-            ///string locAtions = GetLocations(userRequestDto.Coords);
-            
+            string locationsJson = Locations.GetLocations(userRequestDto.Coords);
+
             var grokRequestPayload = new
             {
                 messages = new[]
@@ -90,7 +91,9 @@ namespace HackTownBack.Controllers
                     new
                     {
                         role = "user",
-                        content = $@"Мені потрібно скласти маршрут у структурованому форматі JSON для події. Тип події: {userRequestDto.EventType}. Витрати: {userRequestDto.CostTier} UAH. Кількість людей: {userRequestDto.PeopleCount}. Тривалість події: {userRequestDto.EventTime?.ToString("hh:mm")}. Координати: {userRequestDto.Coords ?? "48.465417,35.053883"}.
+                        content = $@"Мені потрібно скласти маршрут у структурованому форматі JSON для події. Тип події: {userRequestDto.EventType}. Витрати: {userRequestDto.CostTier} UAH. Кількість людей: {userRequestDto.PeopleCount}. Тривалість події: {userRequestDto.EventTime?.ToString("hh:mm")}. Ось список доступних локацій:
+                                
+                                {locationsJson}
 
                                 **Важливо**: Поверніть відповідь у форматі JSON наступного вигляду:
 

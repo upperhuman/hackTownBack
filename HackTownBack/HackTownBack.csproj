@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="API\" />
-    <Folder Include="extantions\" />
   </ItemGroup>
 
 </Project>
