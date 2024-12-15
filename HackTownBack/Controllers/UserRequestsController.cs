@@ -82,7 +82,7 @@ namespace HackTownBack.Controllers
                 return StatusCode(500, $"An error occurred while saving: {ex.Message}");
             }
 
-            string locationsJson = Locations.GetLocations(userRequestDto.Coords);
+            string locationsJson = await Locations.GetLocations(userRequestDto.Coords);
 
             var grokRequestPayload = new
             {
