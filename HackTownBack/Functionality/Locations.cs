@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 namespace HackTownBack.Functionality
 {
     public static class Locations
@@ -34,6 +35,7 @@ namespace HackTownBack.Functionality
                             PriceLevel = result["price_level"]?.ToString()
                         }
                         ).ToList();
+                        return JsonConvert.SerializeObject(locations);
                     }
                 }
             }
