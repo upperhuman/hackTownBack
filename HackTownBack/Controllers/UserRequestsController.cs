@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using HackTownBack.Functionality;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HackTownBack.Controllers
 {
@@ -65,7 +66,7 @@ namespace HackTownBack.Controllers
                 UserId = userRequestDto.UserId,
                 EventType = userRequestDto.EventType,
                 PeopleCount = userRequestDto.PeopleCount,
-                EventTime = userRequestDto.EventTime?.ToUniversalTime(),
+                EventTime = DateTime.UtcNow,//userRequestDto.EventTime?.ToUniversalTime(),
                 CostTier = userRequestDto.CostTier,
                 RequestTime = DateTime.UtcNow,
                 Response = "" // Temporarily empty
@@ -91,7 +92,7 @@ namespace HackTownBack.Controllers
                     new
                     {
                         role = "user",
-                        content = $@"Мені потрібно скласти маршрут у структурованому форматі JSON для події. Тип події: {userRequestDto.EventType}. Витрати: {userRequestDto.CostTier} UAH. Кількість людей: {userRequestDto.PeopleCount}. Тривалість події: {userRequestDto.EventTime?.ToString("hh:mm")}. Ось список доступних локацій:
+                        content = $@"Мені потрібно скласти маршрут у структурованому форматі JSON для події. Тип події: {userRequestDto.EventType}. Витрати: {userRequestDto.CostTier} UAH. Кількість людей: {userRequestDto.PeopleCount}. Тривалість події: {userRequestDto.EventTime}. Ось список доступних локацій:
                                 
                                 {locationsJson}
 
@@ -275,7 +276,7 @@ namespace HackTownBack.Controllers
             existingRequest.UserId = userRequestDto.UserId;
             existingRequest.EventType = userRequestDto.EventType;
             existingRequest.PeopleCount = userRequestDto.PeopleCount;
-            existingRequest.EventTime = userRequestDto.EventTime?.ToUniversalTime();
+            existingRequest.EventTime = DateTime.UtcNow;
             existingRequest.CostTier = userRequestDto.CostTier;
 
             try
