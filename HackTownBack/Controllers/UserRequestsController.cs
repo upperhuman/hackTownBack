@@ -247,7 +247,7 @@ namespace HackTownBack.Controllers
                     Console.WriteLine("Content is null or empty.");
                     return null;
                 }
-                var match = Regex.Match(content, @"```([\s\S]*?)```");
+                var match = Regex.Match(content, @"```(?:json)?([\s\S]*?)```", RegexOptions.IgnoreCase);
                 string cleanedJson = match.Groups[1].Value.Trim();
 
                 // Deserializing content in RouteResponse

@@ -31,8 +31,9 @@ namespace HackTownBack.Functionality
                             Name = result["name"]?.ToString(),
                             Adress = result["vicinity"]?.ToString(),
                             Rating = result["rating"]?.ToString(),
-                            Type = string.Join(", ", result["types"]?.Select(type => type.ToString()) ?? new string[0]),
-                            PriceLevel = result["price_level"]?.ToString()
+                            Type = string.Join(", ", result["types"]?.Select(type => type.ToString())),
+                            PriceLevel = result["price_level"]?.ToString(),
+                            Geometry = result["geometry"]?.ToString()
                         }
                         ).ToList();
                         return JsonConvert.SerializeObject(locations);
