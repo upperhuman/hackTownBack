@@ -50,7 +50,7 @@ namespace HackTownBack.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RouteApiResponce))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupedRoutesResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> PostUserRequest(UserRequestDto userRequestDto)
         {
@@ -88,18 +88,19 @@ namespace HackTownBack.Controllers
             var grokRequestPayload = new
             {
                 messages = new[]
-                {
-                    new
-                    {
-                        role = "user",
-                        content = $@"Мені потрібно скласти маршрут у структурованому форматі JSON для події. Тип події: {userRequestDto.EventType}. Витрати: {userRequestDto.CostTier} UAH. Кількість людей: {userRequestDto.PeopleCount}. Тривалість події: {userRequestDto.EventTime}. Ось список доступних локацій:
-                                
-                                {locationsJson}
+    {
+        new
+        {
+            role = "user",
+            content = $@"Мені потрібно скласти до 4-х різних маршрутів у структурованому форматі JSON для події. Тип події: {userRequestDto.EventType}. Витрати: {userRequestDto.CostTier} UAH. Кількість людей: {userRequestDto.PeopleCount}. Тривалість події: {userRequestDto.EventTime}. Ось список доступних локацій:
+                            
+                            {locationsJson}
 
-                                **Важливо**: Поверніть відповідь у форматі JSON наступного вигляду:
+                            **Важливо**: Поверніть відповідь у форматі JSON наступного вигляду:
 
+                            [
                                 {{
-                                    ""RouteName"": ""Назва маршруту"",
+                                    ""RouteName"": ""Маршрут 1"",
                                     ""BudgetBreakdown"": {{
                                         ""Expenses"": [
                                             {{
@@ -107,24 +108,6 @@ namespace HackTownBack.Controllers
                                                 ""Cost"": 100,
                                                 ""Duration"": ""30 minutes"",
                                                 ""Description"": ""Романтичний початок із кавою у кафе поблизу.""
-                                            }},
-                                            {{
-                                                ""Name"": ""Прогулянка"",
-                                                ""Cost"": 0,
-                                                ""Duration"": ""30 minutes"",
-                                                ""Description"": ""Прогулянка околицями та спілкування.""
-                                            }},
-                                            {{
-                                                ""Name"": ""Дегустація вина та сиру"",
-                                                ""Cost"": 500,
-                                                ""Duration"": ""45 minutes"",
-                                                ""Description"": ""Розслаблення у винному барі зі смачною дегустацією.""
-                                            }},
-                                            {{
-                                                ""Name"": ""Романтична вечеря"",
-                                                ""Cost"": 1000,
-                                                ""Duration"": ""1 hour"",
-                                                ""Description"": ""Вечеря в затишному ресторані поблизу.""
                                             }}
                                         ]
                                     }},
@@ -133,39 +116,20 @@ namespace HackTownBack.Controllers
                                             ""Name"": ""Кав'ярня"",
                                             ""Latitude"": 48.465417,
                                             ""Longitude"": 35.053883,
-                                            ""Description"": ""Кафе для романтичного початку.""
+                                            ""Description"": ""Кафе для романтичного початку."",
                                             ""Address"": ""вул. Мостова, 91""
-                                        }},
-                                        {{
-                                            ""Name"": ""Прогулянка"",
-                                            ""Latitude"": 48.465500,
-                                            ""Longitude"": 35.054000,
-                                            ""Description"": ""Прогулянка красивими місцями навколо.""
-                                            ""Address"": ""вул. Січових Стрільців, 1""
-                                        }},
-                                        {{
-                                            ""Name"": ""Винний бар"",
-                                            ""Latitude"": 48.465600,
-                                            ""Longitude"": 35.054500,
-                                            ""Description"": ""Винний бар для дегустації.""
-                                            ""Address"": ""вул. Олеся Гончара, 2""
-                                        }},
-                                        {{
-                                            ""Name"": ""Ресторан"",
-                                            ""Latitude"": 48.465700,
-                                            ""Longitude"": 35.055000,
-                                            ""Description"": ""Ресторан для вечері.""
-                                            ""Address"": ""вул. Січеславська, 2""
                                         }}
                                     ]
-                                }}
-                                "
-
-                    }
-                },
+                                }},
+                                ...
+                            ]
+                            "
+        }
+    },
                 model = "llama3-8b-8192",
                 temperature = 0.2
             };
+
 
             using var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "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");
@@ -179,53 +143,61 @@ namespace HackTownBack.Controllers
             {
                 var apiResponse = await response.Content.ReadAsStringAsync();
 
-                // Saving responce from grok to db
+                // Saving response from Grok to DB
                 userRequest.Response = apiResponse;
 
-                //Parsing responce from grok
-                var parsedLocations = ParseJsonResponse(apiResponse);
-                if (parsedLocations == null)
+                var parsedRoutes = ParseJsonResponse(apiResponse);
+                if (parsedRoutes == null || !parsedRoutes.Any())
                 {
                     return StatusCode(500, "Failed to parse the route response.");
                 }
 
-                // Creating route
-                var eventRoute = new EventRoute
-                {
-                    RouteName = $"{userRequest.EventType} Route",
-                    CreatedAt = DateTime.UtcNow,
-                    StepsCount = parsedLocations.Locations.Count
-                };
+                var groupId = Guid.NewGuid();
+                var routesToSave = new List<EventRoute>();
 
-                _context.EventRoutes.Add(eventRoute);
-                await _context.SaveChangesAsync(); //Saving route
-
-                //Creating locations
-                foreach (var (location, index) in parsedLocations.Locations.Select((loc, idx) => (loc, idx)))
+                foreach (var route in parsedRoutes)
                 {
-                    var dbLocation = new Location
+                    var eventRoute = new EventRoute
                     {
-                        EventId = eventRoute.Id,
-                        Name = location.Name,
-                        Address = location.Address,
-                        Latitude = location.Latitude,
-                        Longitude = location.Longitude,
-                        Description = location.Description,
-                        Type = "PointOfInterest",
-                        StepNumber = index + 1
+                        GroupId = groupId,
+                        RouteName = route.RouteName,
+                        CreatedAt = DateTime.UtcNow,
+                        StepsCount = route.Locations.Count
                     };
-                    _context.Locations.Add(dbLocation);
-                }
-                //Saving locations
-                await _context.SaveChangesAsync();
 
-                var result = new RouteApiResponce
+                    routesToSave.Add(eventRoute);
+                    _context.EventRoutes.Add(eventRoute);
+                    await _context.SaveChangesAsync(); // Saving route
+
+                    foreach (var (location, index) in route.Locations.Select((loc, idx) => (loc, idx)))
+                    {
+                        var dbLocation = new Location
+                        {
+                            EventId = eventRoute.Id,
+                            Name = location.Name,
+                            Address = location.Address,
+                            Latitude = location.Latitude,
+                            Longitude = location.Longitude,
+                            Description = location.Description,
+                            Type = "PointOfInterest",
+                            StepNumber = index + 1
+                        };
+                        _context.Locations.Add(dbLocation);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                var finalResponse = new GroupedRoutesResponse
                 {
-                    RouteId = eventRoute.Id,
-                    RouteName = eventRoute.RouteName,
+                    GroupId = groupId,
+                    Routes = routesToSave.Select(r => new RouteSummary
+                    {
+                        RouteId = r.Id,
+                        RouteName = r.RouteName
+                    }).ToList()
                 };
 
-                return Ok(result);
+                return Ok(finalResponse);
             }
             else
             {
@@ -233,14 +205,11 @@ namespace HackTownBack.Controllers
             }
         }
 
-        private RouteResponse ParseJsonResponse(string jsonResponse)
+        private List<RouteResponse> ParseJsonResponse(string jsonResponse)
         {
             try
             {
-                // Load JSON into JObject to work with its structure
                 var jsonObject = JObject.Parse(jsonResponse);
-
-                // Jump to the desired part of the JSON
                 var content = jsonObject["choices"]?[0]?["message"]?["content"]?.ToString();
 
                 if (string.IsNullOrEmpty(content))
@@ -248,11 +217,12 @@ namespace HackTownBack.Controllers
                     Console.WriteLine("Content is null or empty.");
                     return null;
                 }
+
                 var match = Regex.Match(content, @"```(?:json)?([\s\S]*?)```", RegexOptions.IgnoreCase);
                 string cleanedJson = match.Groups[1].Value.Trim();
 
-                // Deserializing content in RouteResponse
-                return JsonConvert.DeserializeObject<RouteResponse>(cleanedJson);
+                // Deserializing multiple routes
+                return JsonConvert.DeserializeObject<List<RouteResponse>>(cleanedJson);
             }
             catch (Exception ex)
             {
