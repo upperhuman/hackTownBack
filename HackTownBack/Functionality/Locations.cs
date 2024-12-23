@@ -56,18 +56,8 @@ namespace HackTownBack.Functionality
 
                                     if (placeDetails != null)
                                     {
-                                        locationDetails = new LocationDetails
-                                        {
-                                            Place_id = placeId,
-                                            Name = result["name"]?.ToString(),
-                                            Address = result["vicinity"]?.ToString(),
-                                            Rating = result["rating"]?.ToString(),
-                                            Type = string.Join(", ", result["types"]?.Select(type => type.ToString()) ?? new List<string>()),
-                                            PriceLevel = result["price_level"]?.ToString(),
-                                            Geometry = result["geometry"]?["location"]?.ToString(),
-                                            Overview = placeDetails.Overview,
-                                            Reviews = placeDetails.Reviews
-                                        };
+                                        locationDetails.Overview = placeDetails.Overview;
+                                        locationDetails.Reviews = placeDetails.Reviews.ToObject<List<object>>();
                                     }
                                 }
 
