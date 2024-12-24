@@ -50,7 +50,6 @@ namespace HackTownBack.Functionality
 
                                 if (!string.IsNullOrEmpty(placeId))
                                 {
-                                    // Отримуємо додаткові дані з методу GetPlaceDetails
                                     string placeDetailsJson = await GetPlaceDetails(placeId);
                                     var placeDetails = JsonConvert.DeserializeObject<List<dynamic>>(placeDetailsJson)?.FirstOrDefault();
 
@@ -67,10 +66,9 @@ namespace HackTownBack.Functionality
 
                         nextPageToken = googleResponse["next_page_token"]?.ToString();
 
-                        // Google API вимагає коротку затримку перед використанням next_page_token
                         if (!string.IsNullOrEmpty(nextPageToken))
                         {
-                            await Task.Delay(200);
+                            await Task.Delay(100);
                         }
                     }
                     else
@@ -112,11 +110,9 @@ namespace HackTownBack.Functionality
                             {
                                 Overview = result["editorial_summary"]?["overview"]?.ToString(),
                                 Reviews = result["reviews"]?
-                                    .Take(5)
+                                    .Take(2)                            /// -----------------------LIMIT---------------------------------
                                     .Select(review => new
                                     {
-                                        AuthorName = review["author_name"]?.ToString(),
-                                        AuthorUrl = review["author_url"]?.ToString(),
                                         Rating = review["rating"]?.ToString(),
                                         Text = review["text"]?.ToString(),
                                         TimeDescription = review["relative_time_description"]?.ToString()

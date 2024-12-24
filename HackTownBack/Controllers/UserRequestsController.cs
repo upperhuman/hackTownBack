@@ -93,14 +93,12 @@ namespace HackTownBack.Controllers
         {
             role = "user",
             content = $@"Мені потрібно скласти до 4-х різних маршрутів у структурованому форматі JSON для події. Тип події: {userRequestDto.EventType}. Витрати: {userRequestDto.CostTier} UAH. Кількість людей: {userRequestDto.PeopleCount}. Тривалість події: {userRequestDto.EventTime}. Ось список доступних локацій:
-                            
-                            {locationsJson}
 
+                            {locationsJson.Take(50)/* ------limit----- */}
                             **Важливо**: Поверніть відповідь у форматі JSON наступного вигляду:
-
                             [
                                 {{
-                                    ""RouteName"": ""Маршрут 1"",
+                                    ""RouteName"": ""фільмп→прогулянка→кав'ярня"",
                                     ""BudgetBreakdown"": {{
                                         ""Expenses"": [
                                             {{
