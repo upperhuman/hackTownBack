@@ -30,45 +30,29 @@ namespace HackTownBack.Controllers
 
         // GET: api/EventRoutes/5
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LocationDto))]
         public async Task<ActionResult<EventRoute>> GetEventRoute(int id)
         {
-            // Getting directions with locations
             var eventRoute = await _context.EventRoutes
-                .Include(er => er.Locations.OrderBy(loc => loc.StepNumber)) // Locations in order of steps
+                .Include(er => er.Locations.OrderBy(loc => loc.StepNumber))
                 .FirstOrDefaultAsync(er => er.Id == id);
 
             if (eventRoute == null || !eventRoute.Locations.Any())
             {
-                return NotFound("No route or waypoints found.");
+                return NotFound("Маршрут або точки маршруту не знайдено.");
             }
 
-            // Forming route points
-            var waypoints = eventRoute.Locations
-                .Select(loc => $"{loc.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture)},{loc.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)}")
-                .ToList();
-            // If only one point
-            if (waypoints.Count == 1)
+            var locations = eventRoute.Locations.Select(loc => new
             {
-                var singleLocation = waypoints.First();
-                var googleMapsSingleLocationUrl = $"https://www.google.com/maps/embed/v1/place?key={ApiKey}&q={singleLocation}";
+                loc.Name,
+                loc.Latitude,
+                loc.Longitude,
+                loc.Address,
+                loc.Description,
+                loc.StepNumber
+            }).ToList();
 
-                return Ok(googleMapsSingleLocationUrl);
-            }
-
-            //If there are several points(we form a route)
-            var origin = waypoints.First();
-            var destination = waypoints.Last();
-
-            // If there are intermediate points
-            var intermediateWaypoints = waypoints.Skip(1).Take(waypoints.Count - 2);
-
-            // URL generation for Google Maps Directions
-            var waypointsParam = string.Join("|", intermediateWaypoints);
-            var googleMapsUrl = $"https://www.google.com/maps/embed/v1/directions?key={ApiKey}" +
-                                $"&origin={origin}&destination={destination}" +
-                                (intermediateWaypoints.Any() ? $"&waypoints={waypointsParam}" : "");
-
-            return Ok(googleMapsUrl);
+            return Ok(locations);
         }
 
         // PUT: api/EventRoutes/5
