@@ -38,7 +38,8 @@ string dbName = Environment.GetEnvironmentVariable("DATABASE_NAME") ?? "hacktown
 string dbUser = Environment.GetEnvironmentVariable("DATABASE_USER") ?? "postgres";
 string dbPassword = Environment.GetEnvironmentVariable("DATABASE_PASSWORD") ?? "4kwOXzyVEvPUcxr";
 
-string connectionString = $"Host={dbHost};Port={dbPort};Database={dbName};Username={dbUser};Password={dbPassword}";
+//string connectionString = $"Host={dbHost};Port={dbPort};Database={dbName};Username={dbUser};Password={dbPassword}";
+string connectionString = "postgres://postgres:4kwOXzyVEvPUcxr@hacktowndb.flycast:5432";
 
 builder.Services.AddDbContext<HackTownDbContext>(option => option.UseNpgsql(connectionString));
 
