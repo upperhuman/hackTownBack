@@ -40,7 +40,7 @@ string dbPassword = Environment.GetEnvironmentVariable("DATABASE_PASSWORD") ?? "
 
 string connectionString = $"Host={dbHost};Port={dbPort};Username={dbUser};Password={dbPassword}";
 
-builder.Services.AddDbContext<HackTownDbContext>(option => option.UseNpgsql(connectionString));
+builder.Services.AddDbContext<HackTownDbContext>(option => option.UseNpgsql("postgres://postgres:4kwOXzyVEvPUcxr@hacktowndb.flycast:5432"));
 
 Console.WriteLine($"Using connection string: {connectionString}");
 
