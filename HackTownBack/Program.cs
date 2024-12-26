@@ -32,14 +32,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string dbHost = Environment.GetEnvironmentVariable("DATABASE_HOST") ?? "hacktowndb.cbu20qgcsbot.eu-north-1.rds.amazonaws.com";
+string dbHost = Environment.GetEnvironmentVariable("DATABASE_HOST") ?? "hacktowndb.internal";
 string dbPort = Environment.GetEnvironmentVariable("DATABASE_PORT") ?? "5432";
 string dbName = Environment.GetEnvironmentVariable("DATABASE_NAME") ?? "hacktowndb";
 string dbUser = Environment.GetEnvironmentVariable("DATABASE_USER") ?? "postgres";
-string dbPassword = Environment.GetEnvironmentVariable("DATABASE_PASSWORD") ?? "585662vcxz";
+string dbPassword = Environment.GetEnvironmentVariable("DATABASE_PASSWORD") ?? "4kwOXzyVEvPUcxr";
 
 string connectionString = $"Host={dbHost};Port={dbPort};Database={dbName};Username={dbUser};Password={dbPassword}";
-
 
 builder.Services.AddDbContext<HackTownDbContext>(option => option.UseNpgsql(connectionString));
 
