@@ -1,5 +1,6 @@
 using HackTownBack.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,9 +39,9 @@ string dbName = Environment.GetEnvironmentVariable("DATABASE_NAME") ?? "hacktown
 string dbUser = Environment.GetEnvironmentVariable("DATABASE_USER") ?? "postgres";
 string dbPassword = Environment.GetEnvironmentVariable("DATABASE_PASSWORD") ?? "4kwOXzyVEvPUcxr";
 
-string connectionString = $"Host={dbHost};Port={dbPort};Username={dbUser};Password={dbPassword}";
+string connectionString = $"Host={dbHost};Port={dbPort};Database={dbName};Username={dbUser};Password={dbPassword}";
 
-builder.Services.AddDbContext<HackTownDbContext>(option => option.UseNpgsql("postgres://postgres:4kwOXzyVEvPUcxr@hacktowndb.flycast:5432"));
+builder.Services.AddDbContext<HackTownDbContext>(option => option.UseNpgsql("Host=hacktowndb.flycast;Port=5432;Database=postgres;Username=postgres;Password=4kwOXzyVEvPUcxr"));
 
 Console.WriteLine($"Using connection string: {connectionString}");
 
