@@ -32,7 +32,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string dbHost = Environment.GetEnvironmentVariable("DATABASE_HOST") ?? "hacktowndb.internal";
+string dbHost = Environment.GetEnvironmentVariable("DATABASE_HOST") ?? "hacktowndb.flycast";
 string dbPort = Environment.GetEnvironmentVariable("DATABASE_PORT") ?? "5432";
 string dbName = Environment.GetEnvironmentVariable("DATABASE_NAME") ?? "hacktowndb";
 string dbUser = Environment.GetEnvironmentVariable("DATABASE_USER") ?? "postgres";
