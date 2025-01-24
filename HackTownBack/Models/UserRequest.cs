@@ -12,13 +12,14 @@ namespace HackTownBack.Models
         public int UserId { get; set; }
 
         [Required, MaxLength(50)]
-        public string EventType { get; set; }
+        public string? EventType { get; set; }
 
-        public int PeopleCount { get; set; }
+        public int? PeopleCount { get; set; }
 
         public DateTime? EventTime { get; set; }
 
-        public int CostTier { get; set; }
+        public int? CostTier { get; set; }
+        public string? Text { get; set; }
 
         public DateTime RequestTime { get; set; } = DateTime.Now;
 
@@ -35,11 +36,12 @@ namespace HackTownBack.Models
     public class UserRequestDto
     {
         public int UserId { get; set; }
-        public string EventType { get; set; }
-        public int PeopleCount { get; set; }
-        public string EventTime { get; set; } // Робимо необов’язковим
-        public int CostTier { get; set; }
+        public string? EventType { get; set; }
+        public int? PeopleCount { get; set; }
+        public string? EventTime { get; set; } // Робимо необов’язковим
+        public int? CostTier { get; set; }
         public string? Coords { get; set; }
+        public string? Text { get; set; }
     }
 
 

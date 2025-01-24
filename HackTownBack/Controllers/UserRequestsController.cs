@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HackTownBack.Models;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using Newtonsoft.Json;
-using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
-using HackTownBack.Functionality;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using HackTownBack.Services;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HackTownBack.Controllers
 {
@@ -22,7 +14,7 @@ namespace HackTownBack.Controllers
     public class UserRequestsController : ControllerBase
     {
         private readonly HackTownDbContext _context;
-        private readonly WitAiService _witAiService = new WitAiService("GY3JTA6TOO7FPM4JLPUN54GDXJ6CHODC");
+        //private readonly WitAiService _witAiService = new WitAiService("GY3JTA6TOO7FPM4JLPUN54GDXJ6CHODC");
 
         public UserRequestsController(HackTownDbContext context)
         {
@@ -55,22 +47,47 @@ namespace HackTownBack.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> PostUserRequest(UserRequestDto userRequestDto)
         {
+            // Перевірка наявності користувача
             var userExists = await _context.Users.AnyAsync(u => u.Id == userRequestDto.UserId);
             if (!userExists)
             {
                 return NotFound($"User with ID {userRequestDto.UserId} does not exist.");
             }
 
-            // Creating new request
+            // Перевірка, чи є параметр `text`
+            string requestText;
+            if (!string.IsNullOrEmpty(userRequestDto.Text))
+            {
+                requestText = userRequestDto.Text;
+            }
+            else
+            {
+                // Якщо `text` відсутній, будуємо текст із параметрів
+                if (string.IsNullOrEmpty(userRequestDto.EventType) ||
+                    userRequestDto.PeopleCount == null ||
+                    userRequestDto.CostTier == null)
+                {
+                    return BadRequest("Either 'text' or 'eventType', 'peopleCount', 'costTier' must be provided.");
+                }
+
+                requestText = $@"я хочу отримати маршрут з такими умовами. 
+                                Тип події: {userRequestDto.EventType}. 
+                                Витрати: {userRequestDto.CostTier} UAH. 
+                                Кількість людей: {userRequestDto.PeopleCount}. 
+                                Тривалість події: {userRequestDto.EventTime}.";
+            }
+
+            // Створення нового запиту
             var userRequest = new UserRequest
             {
                 UserId = userRequestDto.UserId,
                 EventType = userRequestDto.EventType,
                 PeopleCount = userRequestDto.PeopleCount,
-                EventTime = DateTime.UtcNow,//userRequestDto.EventTime?.ToUniversalTime(),
+                EventTime = DateTime.UtcNow,
                 CostTier = userRequestDto.CostTier,
                 RequestTime = DateTime.UtcNow,
-                Response = "" // Temporarily empty
+                Text = userRequestDto.Text,
+                Response = "" // Тимчасово порожнє
             };
 
             _context.UserRequests.Add(userRequest);
@@ -84,124 +101,145 @@ namespace HackTownBack.Controllers
                 return StatusCode(500, $"An error occurred while saving: {ex.Message}");
             }
 
-            string locationsJson = await Locations.GetLocations(userRequestDto.Coords);
+            // Отримання локацій
+            string locationsJson = await LocationsService.GetLocations(userRequestDto.Coords);
+            var allLocations = JsonConvert.DeserializeObject<List<LocationDetails>>(locationsJson);
 
-            var grokRequestPayload = new
+            // Розбиття локацій на частини по 30
+            var locationsChunks = allLocations
+                .Select((location, index) => new { location, index })
+                .GroupBy(x => x.index / 30)
+                .Select(g => g.Select(x => x.location).ToList())
+                .ToList();
+
+            // Формування запитів
+            var tasks = locationsChunks.Select(async chunk =>
             {
-                messages = new[]
-    {
-        new
-        {
-            role = "user",
-            content = $@"Мені потрібно скласти до 4-х різних маршрутів у структурованому форматі JSON для події. Тип події: {userRequestDto.EventType}. Витрати: {userRequestDto.CostTier} UAH. Кількість людей: {userRequestDto.PeopleCount}. Тривалість події: {userRequestDto.EventTime}. Ось список доступних локацій:
+                var grokRequestPayload = new
+                {
+                    messages = new[]
+                    {
+                        new
+                        {
+                            role = "user",
+                            content = $@"Потрібно скласти до 3-х різних маршрутів у структурованому форматі JSON для події враховуючи побажання юзера: {requestText}
 
-                            {locationsJson.Take(50)/* ------limit----- */}
-                            **Важливо**: Поверніть відповідь у форматі JSON наступного вигляду:
-                            [
-                                {{
-                                    ""RouteName"": ""фільмп→прогулянка→кав'ярня"",
-                                    ""BudgetBreakdown"": {{
-                                        ""Expenses"": [
+                                        Ось список доступних локацій(данні отримані з google maps api):
+                                        {JsonConvert.SerializeObject(chunk)} 
+                                        **Важливо**: Поверніть відповідь у форматі JSON наступного вигляду, якщо у списку не буде підходячих локацій - поверніть пустий масив:
+                                        [
                                             {{
-                                                ""Name"": ""Кава та торт"",
-                                                ""Cost"": 100,
-                                                ""Duration"": ""30 minutes"",
-                                                ""Description"": ""Романтичний початок із кавою у кафе поблизу.""
+                                                ""RouteName"": ""фільм→прогулянка→кав'ярня"",
+                                                ""BudgetBreakdown"": {{
+                                                    ""Expenses"": [
+                                                        {{
+                                                            ""Name"": ""Кава та торт"",
+                                                            ""Cost"": 100,
+                                                            ""Duration"": ""30 minutes"",
+                                                            ""Description"": ""Романтичний початок із кавою у кафе поблизу.""
+                                                        }}
+                                                    ]
+                                                }},
+                                                ""Locations"": [
+                                                    {{
+                                                        ""Name"": ""Кав'ярня"",
+                                                        ""Latitude"": 48.465417,
+                                                        ""Longitude"": 35.053883,
+                                                        ""Description"": ""Кафе для романтичного початку."",
+                                                        ""Address"": ""вул. Мостова, 91""
+                                                    }}
+                                                ]
                                             }}
                                         ]
-                                    }},
-                                    ""locations"": [
-                                        {{
-                                            ""Name"": ""Кав'ярня"",
-                                            ""Latitude"": 48.465417,
-                                            ""Longitude"": 35.053883,
-                                            ""Description"": ""Кафе для романтичного початку."",
-                                            ""Address"": ""вул. Мостова, 91""
-                                        }}
-                                    ]
-                                }},
-                                ...
-                            ]
-                            "
-        }
-    },
-                model = "llama3-8b-8192",
-                temperature = 0.2
-            };
-
-
-            using var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "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");
-
-            var jsonPayload = JsonConvert.SerializeObject(grokRequestPayload);
-            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-
-            var response = await httpClient.PostAsync("https://api.groq.com/openai/v1/chat/completions", content);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var apiResponse = await response.Content.ReadAsStringAsync();
-
-                // Saving response from Grok to DB
-                userRequest.Response = apiResponse;
-
-                var parsedRoutes = ParseJsonResponse(apiResponse);
-                if (parsedRoutes == null || !parsedRoutes.Any())
-                {
-                    return StatusCode(500, "Failed to parse the route response.");
-                }
-
-                var groupId = Guid.NewGuid();
-                var routesToSave = new List<EventRoute>();
-
-                foreach (var route in parsedRoutes)
-                {
-                    var eventRoute = new EventRoute
-                    {
-                        GroupId = groupId,
-                        RouteName = route.RouteName,
-                        CreatedAt = DateTime.UtcNow,
-                        StepsCount = route.Locations.Count
-                    };
-
-                    routesToSave.Add(eventRoute);
-                    _context.EventRoutes.Add(eventRoute);
-                    await _context.SaveChangesAsync(); // Saving route
-
-                    foreach (var (location, index) in route.Locations.Select((loc, idx) => (loc, idx)))
-                    {
-                        var dbLocation = new Location
-                        {
-                            EventId = eventRoute.Id,
-                            Name = location.Name,
-                            Address = location.Address,
-                            Latitude = location.Latitude,
-                            Longitude = location.Longitude,
-                            Description = location.Description,
-                            Type = "PointOfInterest",
-                            StepNumber = index + 1
-                        };
-                        _context.Locations.Add(dbLocation);
-                    }
-                }
-
-                await _context.SaveChangesAsync();
-                var finalResponse = new GroupedRoutesResponse
-                {
-                    GroupId = groupId,
-                    Routes = routesToSave.Select(r => new RouteSummary
-                    {
-                        RouteId = r.Id,
-                        RouteName = r.RouteName
-                    }).ToList()
+                                        "
+                        }
+                    },
+                    model = "llama3-8b-8192",
+                    temperature = 0.2
                 };
 
-                return Ok(finalResponse);
-            }
-            else
+                return await GrokService.SendRequestToGrokAsync(grokRequestPayload);
+            });
+
+            // Надсилання запитів
+            string[] grokResponses;
+            try
             {
-                return StatusCode(500, "Error occurred while contacting Grok API.");
+                grokResponses = await Task.WhenAll(tasks);
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Failed to contact Grok API: {ex.Message}");
+            }
+
+            // Об'єднання відповідей
+            var combinedResponses = grokResponses.SelectMany(response =>
+            {
+                try
+                {
+                    var parsedRoutes = ParseJsonResponse(response);
+                    return parsedRoutes ?? new List<RouteResponse>();
+                }
+                catch
+                {
+                    return new List<RouteResponse>();
+                }
+            }).ToList();
+
+            if (!combinedResponses.Any())
+            {
+                return StatusCode(500, "Failed to parse the route responses.");
+            }
+
+            // Збереження маршрутів у базу даних
+            var groupId = Guid.NewGuid();
+            var routesToSave = new List<EventRoute>();
+
+            foreach (var route in combinedResponses)
+            {
+                var eventRoute = new EventRoute
+                {
+                    GroupId = groupId,
+                    RouteName = route.RouteName,
+                    CreatedAt = DateTime.UtcNow,
+                    StepsCount = route.Locations.Count
+                };
+
+                routesToSave.Add(eventRoute);
+                _context.EventRoutes.Add(eventRoute);
+                await _context.SaveChangesAsync();
+
+                foreach (var (location, index) in route.Locations.Select((loc, idx) => (loc, idx)))
+                {
+                    var dbLocation = new Location
+                    {
+                        EventId = eventRoute.Id,
+                        Name = location.Name,
+                        Address = location.Address,
+                        Latitude = location.Latitude,
+                        Longitude = location.Longitude,
+                        Description = location.Description,
+                        Type = "PointOfInterest",
+                        StepNumber = index + 1
+                    };
+                    _context.Locations.Add(dbLocation);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            // Повернення відповіді
+            var finalResponse = new GroupedRoutesResponse
+            {
+                GroupId = groupId,
+                Routes = routesToSave.Select(r => new RouteSummary
+                {
+                    RouteId = r.Id,
+                    RouteName = r.RouteName
+                }).ToList()
+            };
+
+            return Ok(finalResponse);
         }
 
 
@@ -232,6 +270,7 @@ namespace HackTownBack.Controllers
             }
         }
 
+/*                               ------------ADDICTIONAL FUNCTIONAL ------------------
         [HttpPost("transcribe")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> TranscribeAudio(IFormFile audioFile)
@@ -255,6 +294,7 @@ namespace HackTownBack.Controllers
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
+*/
 
         // PUT: api/UserRequests/5
         [HttpPut("{id}")]
