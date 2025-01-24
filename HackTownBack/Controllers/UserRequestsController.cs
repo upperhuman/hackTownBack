@@ -22,6 +22,7 @@ namespace HackTownBack.Controllers
     public class UserRequestsController : ControllerBase
     {
         private readonly HackTownDbContext _context;
+        private readonly WitAiService _witAiService = new WitAiService("GY3JTA6TOO7FPM4JLPUN54GDXJ6CHODC");
 
         public UserRequestsController(HackTownDbContext context)
         {
@@ -203,6 +204,8 @@ namespace HackTownBack.Controllers
             }
         }
 
+
+
         private List<RouteResponse> ParseJsonResponse(string jsonResponse)
         {
             try
@@ -229,7 +232,29 @@ namespace HackTownBack.Controllers
             }
         }
 
+        [HttpPost("transcribe")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> TranscribeAudio(IFormFile audioFile)
+        {
+            if (audioFile == null || audioFile.Length == 0)
+            {
+                return BadRequest("No audio file provided.");
+            }
 
+            using var memoryStream = new MemoryStream();
+            await audioFile.CopyToAsync(memoryStream);
+            var audioBytes = memoryStream.ToArray();
+
+            try
+            {
+                var text = await _witAiService.TranscribeAudioAsync(audioBytes);
+                return Ok(new { Text = text });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
 
         // PUT: api/UserRequests/5
         [HttpPut("{id}")]
