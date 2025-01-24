@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-namespace HackTownBack.Functionality
+namespace HackTownBack.Services
 {
-    public static class Locations
+    public static class LocationsService
     {
         private const string ApiKey = "AIzaSyCE5WTbBE1wj6sOibVurOLXsPwlVqAQP5U";
 
