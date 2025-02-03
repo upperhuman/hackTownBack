@@ -62,7 +62,6 @@ namespace HackTownBack.Controllers
             }
             else
             {
-                // Якщо `text` відсутній, будуємо текст із параметрів
                 if (string.IsNullOrEmpty(userRequestDto.EventType) ||
                     userRequestDto.PeopleCount == null ||
                     userRequestDto.CostTier == null)
@@ -71,19 +70,18 @@ namespace HackTownBack.Controllers
                 }
 
                 requestText = $@"я хочу отримати маршрут з такими умовами. 
-                                Тип події: {userRequestDto.EventType}. 
-                                Витрати: {userRequestDto.CostTier} UAH. 
-                                Кількість людей: {userRequestDto.PeopleCount}. 
-                                Тривалість події: {userRequestDto.EventTime}.";
+                        Тип події: {userRequestDto.EventType}. 
+                        Витрати: {userRequestDto.CostTier} UAH. 
+                        Кількість людей: {userRequestDto.PeopleCount}. 
+                        Тривалість події: {userRequestDto.EventTime}.";
             }
 
             // Створення нового запиту
             var userRequest = new UserRequest
             {
                 UserId = userRequestDto.UserId,
-                EventType = userRequestDto.EventType,
+                EventType = userRequestDto.EventType ?? "",
                 PeopleCount = userRequestDto.PeopleCount,
-                EventTime = DateTime.UtcNow,
                 CostTier = userRequestDto.CostTier,
                 RequestTime = DateTime.UtcNow,
                 Text = userRequestDto.Text,
@@ -113,53 +111,7 @@ namespace HackTownBack.Controllers
                 .ToList();
 
             // Формування запитів
-            var tasks = locationsChunks.Select(async chunk =>
-            {
-                var grokRequestPayload = new
-                {
-                    messages = new[]
-                    {
-                        new
-                        {
-                            role = "user",
-                            content = $@"Потрібно скласти до 3-х різних маршрутів у структурованому форматі JSON для події враховуючи побажання юзера: {requestText}
-
-                                        Ось список доступних локацій(данні отримані з google maps api):
-                                        {JsonConvert.SerializeObject(chunk)} 
-                                        **Важливо**: Поверніть відповідь у форматі JSON наступного вигляду, якщо у списку не буде підходячих локацій - поверніть пустий масив:
-                                        [
-                                            {{
-                                                ""RouteName"": ""фільм→прогулянка→кав'ярня"",
-                                                ""BudgetBreakdown"": {{
-                                                    ""Expenses"": [
-                                                        {{
-                                                            ""Name"": ""Кава та торт"",
-                                                            ""Cost"": 100,
-                                                            ""Duration"": ""30 minutes"",
-                                                            ""Description"": ""Романтичний початок із кавою у кафе поблизу.""
-                                                        }}
-                                                    ]
-                                                }},
-                                                ""Locations"": [
-                                                    {{
-                                                        ""Name"": ""Кав'ярня"",
-                                                        ""Latitude"": 48.465417,
-                                                        ""Longitude"": 35.053883,
-                                                        ""Description"": ""Кафе для романтичного початку."",
-                                                        ""Address"": ""вул. Мостова, 91""
-                                                    }}
-                                                ]
-                                            }}
-                                        ]
-                                        "
-                        }
-                    },
-                    model = "llama3-8b-8192",
-                    temperature = 0.2
-                };
-
-                return await GrokService.SendRequestToGrokAsync(grokRequestPayload);
-            });
+            var tasks = locationsChunks.Select(chunk => GrokService.SendRequestWithRetriesAsync(chunk, requestText));
 
             // Надсилання запитів
             string[] grokResponses;
