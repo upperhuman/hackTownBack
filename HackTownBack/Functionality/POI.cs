@@ -1,35 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-class Program
-{
-    static async Task Main()
-    {
-        var pois = await OverpassService.GetFilteredPOIs();
-
-        if (pois.Count == 0)
-        {
-            Console.WriteLine("Не найдено ни одной точки интереса.");
-        }
-
-        foreach (var poi in pois)
-        {
-            Console.WriteLine($"{poi.Name} - {poi.Type} ({poi.Lat}, {poi.Lon})");
-        }
-    }
-}
-
-public class POI
-{
-    public string Name { get; set; }
-    public string Type { get; set; }
-    public double Lat { get; set; }
-    public double Lon { get; set; }
-}
-
 
 public static class OverpassService
 {
