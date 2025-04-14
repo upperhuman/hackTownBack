@@ -52,7 +52,12 @@ namespace HackTownBack.Controllers
                 loc.StepNumber
             }).ToList();
 
-            return Ok(locations);
+            var finalResponse = new
+            {
+                Locations = locations,
+            };
+
+            return Ok(finalResponse);
         }
 
         // PUT: api/EventRoutes/5

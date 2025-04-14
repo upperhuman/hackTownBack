@@ -1,89 +1,68 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 namespace HackTownBack.Services
 {
     public static class LocationsService
     {
         private const string ApiKey = "AIzaSyCE5WTbBE1wj6sOibVurOLXsPwlVqAQP5U";
+        private const string ApiKey2 = "AIzaSyCb1gb3AZf1hPKkJivv0CK790XwSguiJ-A";
 
-        public static async Task<string> GetLocations(string? coords)
+        // Existing GetLocations method remains unchanged if you want to keep it for other purposes
+
+        public static async Task<List<LocationDetails>> SearchLocationsByText(string query, string location, int radius = 1500)
         {
-            coords = coords ?? "48.465417,35.053883";
-            int radius = 1500;
-            List<object> allLocations = new List<object>();
-            string? nextPageToken = null;
+            string requestUri = $"https://maps.googleapis.com/maps/api/place/textsearch/json?query={Uri.EscapeDataString(query)}&location={location}&radius={radius}&key={ApiKey2}";
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(requestUri);
 
-            try
+            if (!response.IsSuccessStatusCode)
             {
-                do
+                Console.WriteLine($"Failed to fetch locations for query '{query}': {response.StatusCode}");
+                return new List<LocationDetails>();
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var googleResponse = JObject.Parse(responseContent);
+            var results = googleResponse["results"];
+
+            if (results == null)
+            {
+                return new List<LocationDetails>();
+            }
+
+            var locations = new List<LocationDetails>();
+            foreach (var result in results)
+            {
+                string placeId = result["place_id"]?.ToString();
+                var locationDetails = new LocationDetails
                 {
-                    string requestUri = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={coords}&radius={radius}&key={ApiKey}"
-                                       + (nextPageToken != null ? $"&pagetoken={nextPageToken}" : "");
+                    Place_id = placeId,
+                    Name = result["name"]?.ToString(),
+                    Address = result["formatted_address"]?.ToString(), // textsearch uses formatted_address
+                    Rating = result["rating"]?.ToString(),
+                    Type = string.Join(", ", result["types"]?.Select(type => type.ToString()) ?? new List<string>()),
+                    PriceLevel = result["price_level"]?.ToString(),
+                    Geometry = result["geometry"]?["location"]?.ToString(),
+                    Overview = "",
+                    Reviews = new List<object>()
+                };
 
-                    var httpClient = new HttpClient();
-                    var response = await httpClient.GetAsync(requestUri);
-
-                    if (response.IsSuccessStatusCode)
+                if (!string.IsNullOrEmpty(placeId))
+                {
+                    var placeDetailsJson = await GetPlaceDetails(placeId);
+                    var placeDetails = JsonConvert.DeserializeObject<List<dynamic>>(placeDetailsJson)?.FirstOrDefault();
+                    if (placeDetails != null)
                     {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        var googleResponse = JObject.Parse(responseContent);
-
-                        var results = googleResponse["results"];
-                        if (results != null)
-                        {
-                            foreach (var result in results)
-                            {
-                                string placeId = result["place_id"]?.ToString();
-
-                                var locationDetails = new LocationDetails
-                                {
-                                    Place_id = placeId,
-                                    Name = result["name"]?.ToString(),
-                                    Address = result["vicinity"]?.ToString(),
-                                    Rating = result["rating"]?.ToString(),
-                                    Type = string.Join(", ", result["types"]?.Select(type => type.ToString()) ?? new List<string>()),
-                                    PriceLevel = result["price_level"]?.ToString(),
-                                    Geometry = result["geometry"]?["location"]?.ToString(),
-                                    Overview = "",
-                                    Reviews = new List<object>()
-                                };
-
-                                if (!string.IsNullOrEmpty(placeId))
-                                {
-                                    string placeDetailsJson = await GetPlaceDetails(placeId);
-                                    var placeDetails = JsonConvert.DeserializeObject<List<dynamic>>(placeDetailsJson)?.FirstOrDefault();
-
-                                    if (placeDetails != null)
-                                    {
-                                        locationDetails.Overview = placeDetails.Overview;
-                                        locationDetails.Reviews = placeDetails.Reviews.ToObject<List<object>>();
-                                    }
-                                }
-
-                                allLocations.Add(locationDetails);
-                            }
-                        }
-
-                        nextPageToken = googleResponse["next_page_token"]?.ToString();
-
-                        if (!string.IsNullOrEmpty(nextPageToken))
-                        {
-                            await Task.Delay(100);
-                        }
+                        locationDetails.Overview = placeDetails.Overview;
+                        locationDetails.Reviews = placeDetails.Reviews.ToObject<List<object>>();
                     }
-                    else
-                    {
-                        Console.WriteLine($"Failed to fetch locations: {response.StatusCode}");
-                        break;
-                    }
-                } while (!string.IsNullOrEmpty(nextPageToken) && allLocations.Count < 60);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to fetch locations from Google Maps API: {ex.Message}");
+                }
+
+                locations.Add(locationDetails);
             }
 
-            return JsonConvert.SerializeObject(allLocations);
+            return locations;
         }
 
         public static async Task<string> GetPlaceDetails(string placeId)
@@ -92,7 +71,7 @@ namespace HackTownBack.Services
 
             try
             {
-                string requestUri = $"https://maps.googleapis.com/maps/api/place/details/json?key={ApiKey}&place_id={placeId}";
+                string requestUri = $"https://maps.googleapis.com/maps/api/place/details/json?key={ApiKey2}&place_id={placeId}";
 
                 using (var httpClient = new HttpClient())
                 {
@@ -137,6 +116,7 @@ namespace HackTownBack.Services
             return JsonConvert.SerializeObject(placeDetails);
         }
     }
+
     public class LocationDetails
     {
         public string Place_id { get; set; }

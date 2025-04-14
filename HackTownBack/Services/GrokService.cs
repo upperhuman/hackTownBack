@@ -28,9 +28,6 @@ namespace HackTownBack.Services
             return await response.Content.ReadAsStringAsync();
         }
 
-        /// <summary>
-        /// Надсилає запит до Grok API і при перевищенні ліміту токенів зменшує кількість локацій на 10 та повторює запит.
-        /// </summary>
         public static async Task<string> SendRequestWithRetriesAsync(List<LocationDetails> locations, string requestText)
         {
             int maxAttempts = 5;
@@ -44,41 +41,41 @@ namespace HackTownBack.Services
                     {
                         messages = new[]
                         {
-                    new
-                    {
-                        role = "user",
-                        content = $@"Потрібно скласти до 3-х різних маршрутів у структурованому форматі JSON для події враховуючи побажання юзера: {requestText}
+                            new
+                            {
+                                role = "user",
+                                content = $@"Потрібно скласти до 3-х різних маршрутів у структурованому форматі JSON для події враховуючи побажання юзера: {requestText}
 
-                                Ось список доступних локацій(данні отримані з google maps api):
-                                {JsonConvert.SerializeObject(locations)} 
-                                **Важливо**: Поверніть відповідь у форматі JSON наступного вигляду, якщо у списку не буде підходячих локацій - поверніть пустий масив:
-                                [
-                                    {{
-                                        ""RouteName"": ""фільм→прогулянка→кав'ярня"",
-                                        ""BudgetBreakdown"": {{
-                                            ""Expenses"": [
-                                                {{
-                                                    ""Name"": ""Кава та торт"",
-                                                    ""Cost"": 100,
-                                                    ""Duration"": ""30 minutes"",
-                                                    ""Description"": ""Романтичний початок із кавою у кафе поблизу.""
-                                                }}
-                                            ]
-                                        }},
-                                        ""Locations"": [
+                                        Ось список доступних локацій(данні отримані з google maps api):
+                                        {JsonConvert.SerializeObject(locations)} 
+                                        **Важливо**: Поверніть відповідь у форматі JSON наступного вигляду, якщо у списку не буде підходячих локацій - поверніть пустий масив:
+                                        [
                                             {{
-                                                ""Name"": ""Кав'ярня"",
-                                                ""Latitude"": 48.465417,
-                                                ""Longitude"": 35.053883,
-                                                ""Description"": ""Кафе для романтичного початку."",
-                                                ""Address"": ""вул. Мостова, 91""
+                                                ""RouteName"": ""фільм→прогулянка→кав'ярня"",
+                                                ""BudgetBreakdown"": {{
+                                                    ""Expenses"": [
+                                                        {{
+                                                            ""Name"": ""Кава та торт"",
+                                                            ""Cost"": 100,
+                                                            ""Duration"": ""30 minutes"",
+                                                            ""Description"": ""Романтичний початок із кавою у кафе поблизу.""
+                                                        }}
+                                                    ]
+                                                }},
+                                                ""Locations"": [
+                                                    {{
+                                                        ""Name"": ""Кав'ярня"",
+                                                        ""Latitude"": 48.465417,
+                                                        ""Longitude"": 35.053883,
+                                                        ""Description"": ""Кафе для романтичного початку."",
+                                                        ""Address"": ""вул. Мостова, 91""
+                                                    }}
+                                                ]
                                             }}
                                         ]
-                                    }}
-                                ]
-                                "
-                    }
-                },
+                                        "
+                            }
+                        },
                         model = "llama3-8b-8192",
                         temperature = 0.2
                     };
@@ -89,7 +86,6 @@ namespace HackTownBack.Services
                 {
                     if (ex.Message.Contains("rate_limit_exceeded") && locations.Count > 10)
                     {
-                        // Якщо ліміт перевищено, зменшуємо кількість локацій на 10 і пробуємо ще раз
                         locations = locations.Take(locations.Count - 10).ToList();
                         attempt++;
                         Console.WriteLine($"[Retry {attempt}/{maxAttempts}] Request too large, reducing locations to {locations.Count}...");
