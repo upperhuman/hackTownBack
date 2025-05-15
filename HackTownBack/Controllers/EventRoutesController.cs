@@ -15,7 +15,7 @@ namespace HackTownBack.Controllers
     {
         private readonly HackTownDbContext _context;
 
-        private const string ApiKey = "AIzaSyCE5WTbBE1wj6sOibVurOLXsPwlVqAQP5U";
+        private const string ApiKey = "AIzaSyCb1gb3AZf1hPKkJivv0CK790XwSguiJ-A";
         public EventRoutesController(HackTownDbContext context)
         {
             _context = context;
@@ -85,6 +85,21 @@ namespace HackTownBack.Controllers
 
             return NoContent();
         }
+        [HttpGet("api/directions")]
+        public async Task<IActionResult> GetDirections([FromQuery] string origin, [FromQuery] string destination, [FromQuery] string waypoints)
+        {
+            var client = new HttpClient();
+            var url = $"https://maps.googleapis.com/maps/api/directions/json?origin={origin}&destination={destination}&mode=walking&traffic_model=best_guess&departure_time=now&language=uk&key={ApiKey}";
+            if (!string.IsNullOrEmpty(waypoints))
+            {
+                url += $"&waypoints={waypoints}";
+            }
+
+            var response = await client.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            return Content(content, "application/json");
+        }
+
 
         // POST: api/EventRoutes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

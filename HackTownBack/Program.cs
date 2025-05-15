@@ -35,13 +35,13 @@ builder.Services.AddSwaggerGen();
 
 string dbHost = Environment.GetEnvironmentVariable("DATABASE_HOST") ?? "localhost";
 string dbPort = Environment.GetEnvironmentVariable("DATABASE_PORT") ?? "5432";
-string dbName = Environment.GetEnvironmentVariable("DATABASE_NAME") ?? "hacktown";
+string dbName = Environment.GetEnvironmentVariable("DATABASE_NAME") ?? "HackTownDB";
 string dbUser = Environment.GetEnvironmentVariable("DATABASE_USER") ?? "postgres";
-string dbPassword = Environment.GetEnvironmentVariable("DATABASE_PASSWORD") ?? "198726ll";
+string dbPassword = Environment.GetEnvironmentVariable("DATABASE_PASSWORD") ?? "54321";
 
 string connectionString = $"Host={dbHost};Port={dbPort};Database={dbName};Username={dbUser};Password={dbPassword}";
 
-builder.Services.AddDbContext<HackTownDbContext>(option => option.UseNpgsql("Host=localhost;Port=5432;Database=hacktown;Username=postgres;Password=198726ll"));
+builder.Services.AddDbContext<HackTownDbContext>(option => option.UseNpgsql(connectionString));
 
 Console.WriteLine($"Using connection string: {connectionString}");
 
