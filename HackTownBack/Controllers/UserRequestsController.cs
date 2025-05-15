@@ -14,7 +14,6 @@ namespace HackTownBack.Controllers
     public class UserRequestsController : ControllerBase
     {
         private readonly HackTownDbContext _context;
-        //private readonly WitAiService _witAiService = new WitAiService("GY3JTA6TOO7FPM4JLPUN54GDXJ6CHODC");
 
         public UserRequestsController(HackTownDbContext context)
         {
@@ -47,14 +46,14 @@ namespace HackTownBack.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> PostUserRequest(UserRequestDto userRequestDto)
         {
-            // Перевірка наявності користувача
+            // Check if the user exists
             var userExists = await _context.Users.AnyAsync(u => u.Id == userRequestDto.UserId);
             if (!userExists)
             {
                 return NotFound($"User with ID {userRequestDto.UserId} does not exist.");
             }
 
-            // Перевірка, чи є параметр `text`
+            // Check if either text or the necessary event parameters are provided
             string requestText;
             if (!string.IsNullOrEmpty(userRequestDto.Text))
             {
@@ -69,6 +68,15 @@ namespace HackTownBack.Controllers
                     return BadRequest("Either 'text' or 'eventType', 'peopleCount', 'costTier' must be provided.");
                 }
 
+                if (userRequestDto.PeopleCount <= 0)
+                {
+                    return BadRequest("People count must be a positive number.");
+                }
+                if (userRequestDto.CostTier <= 0)
+                {
+                    return BadRequest("Cost tier must be a positive number.");
+                }
+
                 requestText = $@"я хочу отримати маршрут з такими умовами. 
                         Тип події: {userRequestDto.EventType}. 
                         Витрати: {userRequestDto.CostTier} UAH. 
@@ -76,7 +84,7 @@ namespace HackTownBack.Controllers
                         Тривалість події: {userRequestDto.EventTime}.";
             }
 
-            // Створення нового запиту
+            // Create the new request
             var userRequest = new UserRequest
             {
                 UserId = userRequestDto.UserId,
@@ -85,7 +93,7 @@ namespace HackTownBack.Controllers
                 CostTier = userRequestDto.CostTier,
                 RequestTime = DateTime.UtcNow,
                 Text = userRequestDto.Text,
-                Response = "" // Тимчасово порожнє
+                Response = "" // Initially empty
             };
 
             _context.UserRequests.Add(userRequest);
@@ -99,33 +107,32 @@ namespace HackTownBack.Controllers
                 return StatusCode(500, $"An error occurred while saving: {ex.Message}");
             }
 
-            // Отримання локацій
-            string locationsJson = await LocationsService.GetLocations(userRequestDto.Coords);
-            var allLocations = JsonConvert.DeserializeObject<List<LocationDetails>>(locationsJson);
+            var tasks = GeminiService.SendRequestWithRetriesAsync(requestText, userRequestDto.Coords ?? "48.465417,35.053883");
 
-            // Розбиття локацій на частини по 30
-            var locationsChunks = allLocations
-                .Select((location, index) => new { location, index })
-                .GroupBy(x => x.index / 30)
-                .Select(g => g.Select(x => x.location).ToList())
-                .ToList();
-
-            // Формування запитів
-            var tasks = locationsChunks.Select(chunk => GrokService.SendRequestWithRetriesAsync(chunk, requestText));
-
-            // Надсилання запитів
-            string[] grokResponses;
+            // Send requests to Gemini API
+            string[] geminiResponses;
             try
             {
-                grokResponses = await Task.WhenAll(tasks);
+                geminiResponses = await Task.WhenAll(tasks);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Failed to contact Grok API: {ex.Message}");
+                if (ex.Message.Contains("rate_limit"))
+                {
+                    return StatusCode(429, "Too many requests, please try again later.");
+                }
+                else if (ex.Message.Contains("UnavailableForLegalReasons"))
+                {
+                    return StatusCode(451, "The requested service is unavailable due to legal reasons.");
+                }
+                else
+                {
+                    return StatusCode(500, $"Failed to contact Gemini API: {ex.Message}");
+                }
             }
 
-            // Об'єднання відповідей
-            var combinedResponses = grokResponses.SelectMany(response =>
+            // Combine responses
+            var combinedResponses = geminiResponses.SelectMany(response =>
             {
                 try
                 {
@@ -143,7 +150,7 @@ namespace HackTownBack.Controllers
                 return StatusCode(500, "Failed to parse the route responses.");
             }
 
-            // Збереження маршрутів у базу даних
+            // Save routes to the database
             var groupId = Guid.NewGuid();
             var routesToSave = new List<EventRoute>();
 
@@ -180,7 +187,7 @@ namespace HackTownBack.Controllers
 
             await _context.SaveChangesAsync();
 
-            // Повернення відповіді
+            // Return final response
             var finalResponse = new GroupedRoutesResponse
             {
                 GroupId = groupId,
@@ -194,59 +201,57 @@ namespace HackTownBack.Controllers
             return Ok(finalResponse);
         }
 
-
-
         private List<RouteResponse> ParseJsonResponse(string jsonResponse)
         {
             try
             {
-                var jsonObject = JObject.Parse(jsonResponse);
-                var content = jsonObject["choices"]?[0]?["message"]?["content"]?.ToString();
-
-                if (string.IsNullOrEmpty(content))
+                if (string.IsNullOrWhiteSpace(jsonResponse))
                 {
-                    Console.WriteLine("Content is null or empty.");
+                    Console.WriteLine("Error: Empty or null response from Gemini API.");
                     return null;
                 }
 
-                var match = Regex.Match(content, @"```(?:json)?([\s\S]*?)```", RegexOptions.IgnoreCase);
-                string cleanedJson = match.Groups[1].Value.Trim();
+                Console.WriteLine($"Raw Gemini response: {jsonResponse}");
 
-                // Deserializing multiple routes
-                return JsonConvert.DeserializeObject<List<RouteResponse>>(cleanedJson);
+                JObject jsonObject;
+                try
+                {
+                    jsonObject = JObject.Parse(jsonResponse);
+                }
+                catch (JsonReaderException ex)
+                {
+                    Console.WriteLine($"JSON Parsing Error: {ex.Message}, StackTrace: {ex.StackTrace}");
+                    return null;
+                }
+
+                var contentToken = jsonObject.SelectToken("candidates[0].content.parts[0].text");
+                if (contentToken == null)
+                {
+                    Console.WriteLine("Error: Missing or empty 'content' field in response.");
+                    return null;
+                }
+
+                string content = contentToken.ToString();
+
+                try
+                {
+                    var match = Regex.Match(content, @"```(?:json)?([\s\S]*?)```", RegexOptions.IgnoreCase);
+                    string cleanedJson = match.Groups[1].Value.Trim();
+
+                    return JsonConvert.DeserializeObject<List<RouteResponse>>(cleanedJson);
+                }
+                catch (JsonSerializationException ex)
+                {
+                    Console.WriteLine($"Deserialization Error: {ex.Message}, StackTrace: {ex.StackTrace}");
+                    return null;
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to parse JSON response: {ex.Message}");
+                Console.WriteLine($"Unexpected error while parsing Gemini response: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return null;
             }
         }
-
-/*                               ------------ADDICTIONAL FUNCTIONAL ------------------
-        [HttpPost("transcribe")]
-        [Consumes("multipart/form-data")]
-        public async Task<IActionResult> TranscribeAudio(IFormFile audioFile)
-        {
-            if (audioFile == null || audioFile.Length == 0)
-            {
-                return BadRequest("No audio file provided.");
-            }
-
-            using var memoryStream = new MemoryStream();
-            await audioFile.CopyToAsync(memoryStream);
-            var audioBytes = memoryStream.ToArray();
-
-            try
-            {
-                var text = await _witAiService.TranscribeAudioAsync(audioBytes);
-                return Ok(new { Text = text });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Error = ex.Message });
-            }
-        }
-*/
 
         // PUT: api/UserRequests/5
         [HttpPut("{id}")]

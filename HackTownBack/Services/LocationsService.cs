@@ -1,16 +1,22 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 namespace HackTownBack.Services
 {
     public static class LocationsService
     {
-        private const string ApiKey = "AIzaSyCE5WTbBE1wj6sOibVurOLXsPwlVqAQP5U";
+        private const string ApiKey = "AIzaSyAg2tvBTh-N-MfXWShCJ8B8h08R0p4nKCY"; // Замініть на ваш API ключ
 
         public static async Task<string> GetLocations(string? coords)
         {
             coords = coords ?? "48.465417,35.053883";
             int radius = 1500;
-            List<object> allLocations = new List<object>();
+            List<LocationDetails> allLocations = new List<LocationDetails>();
             string? nextPageToken = null;
 
             try
@@ -18,9 +24,9 @@ namespace HackTownBack.Services
                 do
                 {
                     string requestUri = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={coords}&radius={radius}&key={ApiKey}"
-                                       + (nextPageToken != null ? $"&pagetoken={nextPageToken}" : "");
+                                        + (nextPageToken != null ? $"&pagetoken={nextPageToken}" : "");
 
-                    var httpClient = new HttpClient();
+                    using var httpClient = new HttpClient();
                     var response = await httpClient.GetAsync(requestUri);
 
                     if (response.IsSuccessStatusCode)
@@ -55,8 +61,8 @@ namespace HackTownBack.Services
 
                                     if (placeDetails != null)
                                     {
-                                        locationDetails.Overview = placeDetails.Overview;
-                                        locationDetails.Reviews = placeDetails.Reviews.ToObject<List<object>>();
+                                        locationDetails.Overview = placeDetails?.Overview;
+                                        locationDetails.Reviews = placeDetails?.Reviews.ToObject<List<object>>() ?? new List<object>();
                                     }
                                 }
 
@@ -68,7 +74,7 @@ namespace HackTownBack.Services
 
                         if (!string.IsNullOrEmpty(nextPageToken))
                         {
-                            await Task.Delay(100);
+                            await Task.Delay(1000); // Rate limit handling
                         }
                     }
                     else
@@ -80,7 +86,7 @@ namespace HackTownBack.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to fetch locations from Google Maps API: {ex.Message}");
+                Console.WriteLine($"Failed to fetch locations from Google Maps API: {ex.Message}, StackTrace: {ex.StackTrace}");
             }
 
             return JsonConvert.SerializeObject(allLocations);
@@ -110,7 +116,7 @@ namespace HackTownBack.Services
                             {
                                 Overview = result["editorial_summary"]?["overview"]?.ToString(),
                                 Reviews = result["reviews"]?
-                                    .Take(2)                            /// -----------------------LIMIT---------------------------------
+                                    .Take(2)
                                     .Select(review => new
                                     {
                                         Rating = review["rating"]?.ToString(),
@@ -131,12 +137,13 @@ namespace HackTownBack.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to fetch place details from Google Maps API: {ex.Message}");
+                Console.WriteLine($"Failed to fetch place details from Google Maps API: {ex.Message}, StackTrace: {ex.StackTrace}");
             }
 
             return JsonConvert.SerializeObject(placeDetails);
         }
     }
+
     public class LocationDetails
     {
         public string Place_id { get; set; }
